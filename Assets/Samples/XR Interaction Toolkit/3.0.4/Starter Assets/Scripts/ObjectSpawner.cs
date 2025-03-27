@@ -191,7 +191,8 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         /// </remarks>
         /// <seealso cref="objectSpawned"/>
         public bool TrySpawnObject(Vector3 spawnPoint, Vector3 spawnNormal)
-        {
+        {      
+            // make sure you are within the spawn space first
             if (m_OnlySpawnInView)
             {
                 var inViewMin = m_ViewportPeriphery;
@@ -204,7 +205,59 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
                 }
             }
 
+            // make sure it's within the range of available prefabs
             var objectIndex = isSpawnOptionRandomized ? Random.Range(0, m_ObjectPrefabs.Count) : m_SpawnOptionIndex;
+            
+            var m_FloorPrefabIndex = 0; // first item in the prefab list
+            
+            // Check what we're hitting with a raycast
+
+            Ray ray = new Ray(spawnPoint + Vector3.up * 0.1f, Vector3.down);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 0.2f))
+            {
+                Debug.Log($"Hit object: {hit.collider.gameObject.name} on layer: {hit.collider.gameObject.layer}");
+                
+                // Only do overlap check if we're trying to place a floor AND we're clicking on a floor
+                if (objectIndex == m_FloorPrefabIndex && hit.collider.gameObject.layer == LayerMask.NameToLayer("Floor"))
+                {
+                    Collider prefabCollider = m_ObjectPrefabs[objectIndex].GetComponent<Collider>();
+                    if (prefabCollider != null)
+                    {
+                        Vector3 size = prefabCollider.bounds.size;
+                        Debug.Log($"Checking overlap with floor size: {size} at position: {spawnPoint}");
+                        
+                        // Calculate the rotation based on camera direction
+                        var cameraPos = m_CameraToFace.transform.position;
+                        var directionToCamera = cameraPos - spawnPoint;
+                        BurstMathUtility.ProjectOnPlane(directionToCamera, spawnNormal, out var projectedDir);
+                        Quaternion spawnRotation = Quaternion.LookRotation(projectedDir, spawnNormal);
+                        
+                        // Add a small buffer to prevent floating point precision issues
+                        Vector3 checkSize = size * 1.01f;
+                        
+                        int floorLayerMask = LayerMask.GetMask("Floor");
+                        Collider[] overlaps = Physics.OverlapBox(
+                            spawnPoint,
+                            checkSize * 0.5f, // Using half-size as OverlapBox expects half-extents
+                            spawnRotation,
+                            floorLayerMask
+                        );
+
+                        if (overlaps.Length > 0)
+                        {
+                            Debug.Log($"Found {overlaps.Length} overlapping floors:");
+                            foreach (var overlap in overlaps)
+                            {
+                                Debug.Log($"- Overlapping with: {overlap.gameObject.name} at position: {overlap.transform.position}");
+                            }
+                            return false;
+                        }
+                    }
+                }
+            }
+            
+
             var newObject = Instantiate(m_ObjectPrefabs[objectIndex]);
             if (m_SpawnAsChildren)
                 newObject.transform.parent = transform;
