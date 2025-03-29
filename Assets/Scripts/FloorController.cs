@@ -25,6 +25,14 @@ public class FloorController : MonoBehaviour
         }
     }
 
+    // Check if another object is placed on here using a LAYER
+    // or can check the specific tag attached to the other objects
+    /**
+    
+    */
+
+
+
     // Update is called once per frame
     void Update()
     {
