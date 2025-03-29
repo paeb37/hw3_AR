@@ -8600,7 +8600,7 @@ MonoBehaviour:
   - stepObject: {fileID: 529364393}
     buttonText: 
     includeSkipButton: 0
-  m_ObjectSpawner: {fileID: 436358033}
+  m_ObjectSpawner: {fileID: 0}
   m_GreetingPrompt: {fileID: 595971757}
   m_OptionsButton: {fileID: 1520419809}
   m_CreateButton: {fileID: 1059051467}

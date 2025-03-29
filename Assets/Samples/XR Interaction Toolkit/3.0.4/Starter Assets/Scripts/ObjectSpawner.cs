@@ -195,13 +195,24 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         /// </remarks>
         /// <seealso cref="objectSpawned"/>
         public bool TrySpawnObject(Vector3 spawnPoint, Vector3 spawnNormal)
-        {     
-            // make sure that you cannot place more
-            if (m_ObjectPrefabs[m_SpawnOptionIndex].CompareTag("Floor") && num_floors >= MAX_FLOORS)
+        {    
+            // make sure it's within the range of available prefabs
+            var objectIndex = isSpawnOptionRandomized ? Random.Range(0, m_ObjectPrefabs.Count) : m_SpawnOptionIndex;
+
+            // Check floor limit only if we're spawning a floor
+            if (objectIndex >= 0 && objectIndex < m_ObjectPrefabs.Count && 
+                m_ObjectPrefabs[objectIndex].CompareTag("Floor") && num_floors >= MAX_FLOORS)
             {
-                Debug.LogWarning("AT THE LIMIT!!!");
+                Debug.LogWarning("Maximum number of floors reached!");
                 return false;
             }
+
+            // // make sure that you cannot place more
+            // if (m_ObjectPrefabs[m_SpawnOptionIndex].CompareTag("Floor") && num_floors >= MAX_FLOORS)
+            // {
+            //     Debug.LogWarning("AT THE LIMIT!!!");
+            //     return false;
+            // }
 
             // make sure you are within the spawn space first
             if (m_OnlySpawnInView)
@@ -217,7 +228,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             }
 
             // make sure it's within the range of available prefabs
-            var objectIndex = isSpawnOptionRandomized ? Random.Range(0, m_ObjectPrefabs.Count) : m_SpawnOptionIndex;
+            // var objectIndex = isSpawnOptionRandomized ? Random.Range(0, m_ObjectPrefabs.Count) : m_SpawnOptionIndex;
             
             // var m_FloorPrefabIndex = 0; // first item in the prefab list
             
