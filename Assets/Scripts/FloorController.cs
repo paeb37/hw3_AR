@@ -18,17 +18,28 @@ public class FloorController : MonoBehaviour
         
         // Check if the triggering object is also a floor
         if (other.gameObject.CompareTag("Floor"))
-        {
+        {   
+            Debug.Log("Triggered!!");
+
             // Destroy both parent Floor objects
             Destroy(other.gameObject.transform.parent.gameObject);
             Destroy(transform.parent.gameObject);
+        }
+        else
+        {
+            Debug.Log($"Object {other.gameObject.name} was spawned on the floor!");
+            // Add your custom logic here for when objects are spawned on the floor
+            // For example:
+            // - Track the object
+            // - Trigger events
+            // - Apply effects
         }
     }
 
     // Check if another object is placed on here using a LAYER
     // or can check the specific tag attached to the other objects
     /**
-    
+
     */
 
 

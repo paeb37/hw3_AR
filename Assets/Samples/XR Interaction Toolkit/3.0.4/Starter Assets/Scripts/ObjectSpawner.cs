@@ -13,6 +13,10 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         [Tooltip("The camera that objects will face when spawned. If not set, defaults to the main camera.")]
         Camera m_CameraToFace;
 
+        // handle the limiting to 3 floors being placed only
+        private int num_floors = 0; // this is the number of floors placed
+        private const int MAX_FLOORS = 3; // NO MORE THAN 3
+
         /// <summary>
         /// The camera that objects will face when spawned. If not set, defaults to the <see cref="Camera.main"/> camera.
         /// </summary>
@@ -191,7 +195,14 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         /// </remarks>
         /// <seealso cref="objectSpawned"/>
         public bool TrySpawnObject(Vector3 spawnPoint, Vector3 spawnNormal)
-        {      
+        {     
+            // make sure that you cannot place more
+            if (m_ObjectPrefabs[m_SpawnOptionIndex].CompareTag("Floor") && num_floors >= MAX_FLOORS)
+            {
+                Debug.LogWarning("AT THE LIMIT!!!");
+                return false;
+            }
+
             // make sure you are within the spawn space first
             if (m_OnlySpawnInView)
             {
@@ -282,6 +293,13 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             {
                 var randomRotation = Random.Range(-m_SpawnAngleRange, m_SpawnAngleRange);
                 newObject.transform.Rotate(Vector3.up, randomRotation);
+            }
+
+            // just increment counter
+            if (newObject.CompareTag("Floor"))
+            {
+                num_floors++;
+                Debug.Log("Floor count: " + num_floors);
             }
 
             if (m_SpawnVisualizationPrefab != null)

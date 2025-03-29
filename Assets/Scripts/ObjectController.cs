@@ -10,26 +10,39 @@ public class ObjectController : MonoBehaviour
         
     }
 
-    // Handle collision when another object enters this floor's collider
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     // Debug statement to verify trigger detection
-    //     Debug.Log($"Trigger detected between {gameObject.name} and {other.gameObject.name}");
+    // should hit the floor
+    private void OnTriggerEnter(Collider other)
+    {
+        // Debug statement to verify trigger detection
+        // Debug.Log($"Trigger detected between {gameObject.name} and {other.gameObject.name}");
         
-    //     // Check if the triggering object is also a floor
-    //     if (other.gameObject.CompareTag("Floor"))
-    //     {
-    //         // Destroy both parent Floor objects
-    //         Destroy(other.gameObject.transform.parent.gameObject);
-    //         Destroy(transform.parent.gameObject);
-    //     }
-    // }
+        // Check if the triggering object is a floor
+        if (other.gameObject.CompareTag("Floor"))
+        {
+            Debug.Log("Object landed on floor - keeping object");
+        }
+        else // i.e. colliding with another object, NOT the plane
+        {   
+            // if (!other.gameObject.CompareTag("ARPlane"))
+            // {
+                Debug.Log($"Object {transform.parent.gameObject.name} collided with {other.gameObject.name} - destroying");
+                Destroy(transform.parent.gameObject);  // Destroy the parent instead of this object
+            // }
+        }
+    }
 
-    // Check if another object is placed on here using a LAYER
-    // or can check the specific tag attached to the other objects
-    /**
-    
-    */
+    // Add a new method to check when trigger exits
+    private void OnTriggerExit(Collider other)
+    {
+        // Only check for floor collisions, ignore everything else
+        if (other.gameObject.CompareTag("Floor"))
+        {
+            Debug.Log($"Object {transform.parent.gameObject.name} left floor - destroying");
+            Destroy(transform.parent.gameObject);
+        }
+    }
+
+
 
 
 
