@@ -26,7 +26,7 @@ public class ObjectController : MonoBehaviour
             if (!other.gameObject.CompareTag("ARPlane"))
             {
                 Debug.Log($"Object {transform.parent.gameObject.name} collided with {other.gameObject.name} - destroying");
-                // Destroy(transform.parent.gameObject);  // Destroy the parent instead of this object
+                Destroy(transform.parent.gameObject);  // Destroy the parent instead of this object
             }
         }
     }
