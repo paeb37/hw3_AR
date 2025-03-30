@@ -13,6 +13,10 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         [Tooltip("The camera that objects will face when spawned. If not set, defaults to the main camera.")]
         Camera m_CameraToFace;
 
+        [SerializeField]
+        [Tooltip("The MainTransform object that floors will be parented to.")]
+        GameObject m_MainTransform;
+
         // handle the limiting to 3 floors being placed only
         private int num_floors = 0; // this is the number of floors placed
         private const int MAX_FLOORS = 3; // NO MORE THAN 3
@@ -180,6 +184,19 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             m_SpawnOptionIndex = -1;
         }
 
+        void Start()
+        {
+            // Find MainTransform if not assigned
+            if (m_MainTransform == null)
+            {
+                m_MainTransform = GameObject.Find("MainTransform");
+                if (m_MainTransform == null)
+                {
+                    Debug.LogWarning("MainTransform not found in scene. Floors will not be properly grouped.");
+                }
+            }
+        }
+
         /// <summary>
         /// Attempts to spawn an object from <see cref="objectPrefabs"/> at the given position. The object will have a
         /// yaw rotation that faces <see cref="cameraToFace"/>, plus or minus a random angle within <see cref="spawnAngleRange"/>.
@@ -289,8 +306,18 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             
 
             var newObject = Instantiate(m_ObjectPrefabs[objectIndex]);
-            if (m_SpawnAsChildren)
-                newObject.transform.parent = transform;
+            // if (m_SpawnAsChildren)
+            //     newObject.transform.parent = transform;
+
+            // Parent to MainTransform if it's a floor
+            if (newObject.CompareTag("Floor") && m_MainTransform != null)
+            {
+                newObject.transform.SetParent(m_MainTransform.transform, true);
+            }
+            else if (m_SpawnAsChildren) // default behavior, to object spawner
+            {
+                newObject.transform.SetParent(transform);
+            }
 
             newObject.transform.position = spawnPoint;
             EnsureFacingCamera();

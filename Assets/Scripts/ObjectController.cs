@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class ObjectController : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject mainTransform;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Find MainTransform if not assigned
+        if (mainTransform == null)
+        {
+            mainTransform = GameObject.Find("MainTransform");
+            if (mainTransform == null)
+            {
+                Debug.LogWarning("MainTransform not found in scene. Objects will not be properly grouped.");
+            }
+        }
     }
 
     // should hit the floor
