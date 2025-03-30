@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class FloorController : MonoBehaviour
 {
+    public int floorNumber; // 1, 2, or 3
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        floorNumber = ++GameData.numFloors;
+        Debug.Log($"Floor {floorNumber} initialized");
     }
 
     // Handle collision when another object enters this floor's collider
     private void OnTriggerEnter(Collider other)
     {
         // Debug statement to verify trigger detection
-        Debug.Log($"Trigger detected between {gameObject.name} and {other.gameObject.name}");
+        Debug.Log($"Trigger detected between Floor {floorNumber} and {other.gameObject.name}");
         
         // Check if the triggering object is also a floor
         if (other.gameObject.CompareTag("Floor"))
@@ -27,7 +30,7 @@ public class FloorController : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Object {other.gameObject.name} was spawned on the floor!");
+            Debug.Log($"Object {other.gameObject.name} was spawned on Floor {floorNumber}!");
             // Add your custom logic here for when objects are spawned on the floor
             // For example:
             // - Track the object
