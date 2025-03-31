@@ -10,6 +10,10 @@ public class FloorController : MonoBehaviour
     void Start()
     {
         floorNumber = ++GameData.numFloors;
+
+        // Set the name of the parent GameObject
+        transform.parent.gameObject.name = $"Floor{floorNumber}";
+
         Debug.Log($"Floor {floorNumber} initialized");
     }
 
