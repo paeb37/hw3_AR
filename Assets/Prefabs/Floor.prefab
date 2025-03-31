@@ -179,6 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 0
+  grabInteractable: {fileID: 8713970085065102187}
 --- !u!65 &403094305448445622
 BoxCollider:
   m_ObjectHideFlags: 0
