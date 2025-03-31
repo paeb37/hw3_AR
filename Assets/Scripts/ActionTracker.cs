@@ -12,7 +12,28 @@ public class ActionTracker : MonoBehaviour
     // have to still keep track of these actions in case we want to redo the undo
     private Stack<Action> redoStack = new Stack<Action>();
 
+    // linked list doubly
+    // 
+
     private const int MAX_UNDO_LEVELS = 10;
+
+    /// Called when an object is spawned
+    public void OnObjectSpawned(GameObject obj)
+    {
+        if (obj != null)
+        {
+            AddAction(new Action(ActionType.Spawn, obj, (obj.transform.position, obj.transform.rotation, obj.transform.localScale)));
+        }
+    }
+
+    /// Called when an object is despawned
+    public void OnObjectDespawned(GameObject obj)
+    {
+        if (obj != null)
+        {
+            AddAction(new Action(ActionType.Despawn, obj, (obj.transform.position, obj.transform.rotation, obj.transform.localScale)));
+        }
+    }
 
     /// Called when an object starts being grabbed/manipulated
     /// This is called within the XRGrabInteractable script
@@ -68,12 +89,14 @@ public class ActionTracker : MonoBehaviour
     public void AddAction(Action action)
     {
         undoStack.Push(action);
-        
-        // Clear redo stack when new action is added
-        // Allows a common undo/redo pattern where any new action after an undo operation invalidates the redo history
-        redoStack.Clear();
 
-        // may change this later
+        // clear()
+        // add new action to undo stack NOT from redo
+        // clear redo stack
+        // how it matches ctrl z in README
+        // 
+
+        // throw away more than 10!!!!
         
         // Maintain maximum undo levels
         if (undoStack.Count > MAX_UNDO_LEVELS)
@@ -96,6 +119,9 @@ public class ActionTracker : MonoBehaviour
         if (undoStack.Count == 0) return;
 
         Action action = undoStack.Pop();
+
+        // add debug log to see how big the stack is
+        // 
         action.Reverse();
         redoStack.Push(action);
     }

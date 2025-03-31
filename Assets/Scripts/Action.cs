@@ -77,6 +77,7 @@ public class Action
                 break;
             case ActionType.Despawn:
                 // If we despawned an object, reverse means showing it again
+                // Don't create a new spawn action, just re-enable the object
                 TargetObject.SetActive(true);
                 break;
             case ActionType.Translate:
@@ -110,7 +111,7 @@ public class Action
                 TargetObject.SetActive(true);
                 break;
             case ActionType.Despawn:
-                // If we undid a despawn, redo means hiding the object again
+                // If we undid a despawn, redo means hiding it again
                 TargetObject.SetActive(false);
                 break;
             case ActionType.Translate:
