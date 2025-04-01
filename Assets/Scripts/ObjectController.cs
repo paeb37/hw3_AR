@@ -16,7 +16,7 @@ public class ObjectController : MonoBehaviour
             mainTransform = GameObject.Find("MainTransform");
             if (mainTransform == null)
             {
-                Debug.LogWarning("MainTransform not found in scene. Objects will not be properly grouped.");
+                // Debug.LogWarning("MainTransform not found in scene. Objects will not be properly grouped.");
             }
         }
     }
@@ -25,18 +25,18 @@ public class ObjectController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Debug statement to verify trigger detection
-        Debug.Log($"Trigger detected between {gameObject.name} and {other.gameObject.name}");
+        // Debug.Log($"Trigger detected between {gameObject.name} and {other.gameObject.name}");
         
         // Check if the triggering object is a floor
         if (other.gameObject.CompareTag("Floor"))
         {
-            Debug.Log("Object landed on floor - keeping object");
+            // Debug.Log("Object landed on floor - keeping object");
 
             // Get the floor number from the FloorController component on the Visuals child
             FloorController floorController = other.gameObject.GetComponent<FloorController>();
             if (floorController != null)
             {
-                Debug.Log($"Object landed on Floor {floorController.floorNumber}");
+                // Debug.Log($"Object landed on Floor {floorController.floorNumber}");
             }
 
             // now group with the floor it is intersecting with
@@ -45,8 +45,8 @@ public class ObjectController : MonoBehaviour
             GameObject mainFloorObject = other.transform.parent.gameObject;
             GameObject objectToParent = transform.parent.gameObject;
             
-            Debug.Log($"Before parenting - Object: {objectToParent.name}, Current parent: {objectToParent.transform.parent?.name ?? "none"}");
-            Debug.Log($"Attempting to parent to: {mainFloorObject.name}");
+            // Debug.Log($"Before parenting - Object: {objectToParent.name}, Current parent: {objectToParent.transform.parent?.name ?? "none"}");
+            // Debug.Log($"Attempting to parent to: {mainFloorObject.name}");
             
             // Store original transform values
             // Vector3 originalPosition = objectToParent.transform.position;
@@ -55,19 +55,19 @@ public class ObjectController : MonoBehaviour
             // Parent the object to the floor
             objectToParent.transform.SetParent(mainFloorObject.transform, true);
             
-            Debug.Log($"After parenting - Object: {objectToParent.name}, New parent: {objectToParent.transform.parent?.name ?? "none"}");
-            Debug.Log($"Object position: {objectToParent.transform.position}, Parent position: {mainFloorObject.transform.position}");
+            // Debug.Log($"After parenting - Object: {objectToParent.name}, New parent: {objectToParent.transform.parent?.name ?? "none"}");
+            // Debug.Log($"Object position: {objectToParent.transform.position}, Parent position: {mainFloorObject.transform.position}");
             
             // objectToParent.transform.position = originalPosition;
             // objectToParent.transform.rotation = originalRotation;
             
-            Debug.Log($"Parented {objectToParent.name} to {mainFloorObject.name}");
+            // Debug.Log($"Parented {objectToParent.name} to {mainFloorObject.name}");
         }
         else // i.e. colliding with another object, NOT the plane
         {   
             if (!other.gameObject.CompareTag("ARPlane"))
             {
-                Debug.Log($"Object {transform.parent.gameObject.name} collided with {other.gameObject.name} - destroying");
+                // Debug.Log($"Object {transform.parent.gameObject.name} collided with {other.gameObject.name} - destroying");
                 Destroy(transform.parent.gameObject);  // Destroy the parent instead of this object
             }
         }
@@ -79,7 +79,7 @@ public class ObjectController : MonoBehaviour
         // Only check for floor collisions, ignore everything else
         if (other.gameObject.CompareTag("Floor"))
         {
-            Debug.Log($"Object {transform.parent.gameObject.name} left floor - destroying");
+            // Debug.Log($"Object {transform.parent.gameObject.name} left floor - destroying");
             Destroy(transform.parent.gameObject);
         }
     }

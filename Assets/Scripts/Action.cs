@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 /// <summary>
 /// Defines the different types of actions that can be performed on objects in the scene.
@@ -61,72 +62,19 @@ public class Action
         );
     }
 
-    /// Reverses the action by restoring the object to its previous state.
-    /// For spawn/despawn: just toggles the object's active state
-    /// For transform actions: restores the object's position/rotation/scale to previous values
-    public void Reverse()
+    /// <summary>
+    /// Gets the previous transform state of the object
+    /// </summary>
+    public (Vector3 position, Quaternion rotation, Vector3 scale) GetPreviousTransform()
     {
-        // Safety check - don't proceed if the target object no longer exists
-        if (TargetObject == null) return;
-
-        switch (Type)
-        {
-            case ActionType.Spawn:
-                // If we spawned an object, reverse means hiding it
-                TargetObject.SetActive(false);
-                break;
-            case ActionType.Despawn:
-                // If we despawned an object, reverse means showing it again
-                // Don't create a new spawn action, just re-enable the object
-                TargetObject.SetActive(true);
-                break;
-            case ActionType.Translate:
-                // Restore the object's position to where it was before the move
-                TargetObject.transform.position = previousTransform.position;
-                break;
-            case ActionType.Rotate:
-                // Restore the object's rotation to what it was before the rotation using Quaternion
-                // USES QUATERNION TO AVOID GIMBAL LOCK
-                TargetObject.transform.rotation = previousTransform.rotation;
-                break;
-            case ActionType.Scale:
-                // Restore the object's scale to what it was before the scaling
-                TargetObject.transform.localScale = previousTransform.scale;
-                break;
-        }
+        return previousTransform;
     }
 
-    /// Reapplies the action by restoring the object to its state after the action.
-    /// For spawn/despawn: toggles the object's active state
-    /// For transform actions: restores the object's position/rotation/scale to the values after the action
-    public void Redo()
+    /// <summary>
+    /// Gets the current transform state of the object
+    /// </summary>
+    public (Vector3 position, Quaternion rotation, Vector3 scale) GetCurrentTransform()
     {
-        // Safety check - don't proceed if the target object no longer exists
-        if (TargetObject == null) return;
-
-        switch (Type)
-        {
-            case ActionType.Spawn:
-                // If we undid a spawn, redo means showing the object again
-                TargetObject.SetActive(true);
-                break;
-            case ActionType.Despawn:
-                // If we undid a despawn, redo means hiding it again
-                TargetObject.SetActive(false);
-                break;
-            case ActionType.Translate:
-                // Restore the object's position to where it was after the move
-                TargetObject.transform.position = currentTransform.position;
-                break;
-            case ActionType.Rotate:
-                // Restore the object's rotation to what it was after the rotation using Quaternion
-                // USES QUATERNION TO AVOID GIMBAL LOCK
-                TargetObject.transform.rotation = currentTransform.rotation;
-                break;
-            case ActionType.Scale:
-                // Restore the object's scale to what it was after the scaling
-                TargetObject.transform.localScale = currentTransform.scale;
-                break;
-        }
+        return currentTransform;
     }
 }

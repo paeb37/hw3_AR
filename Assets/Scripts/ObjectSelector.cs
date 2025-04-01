@@ -14,15 +14,15 @@ public class ObjectSelector : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("ObjectSelector Start - Target Object: " + (targetObject != null) + ", Interactor: " + (interactor != null));
+        // Debug.Log("ObjectSelector Start - Target Object: " + (targetObject != null) + ", Interactor: " + (interactor != null));
         if (targetObject != null)
         {
-            Debug.Log("Target Object Layer: " + targetObject.gameObject.layer);
-            Debug.Log("Target Object Name: " + targetObject.gameObject.name);
+            // Debug.Log("Target Object Layer: " + targetObject.gameObject.layer);
+            // Debug.Log("Target Object Name: " + targetObject.gameObject.name);
         }
         if (interactor != null)
         {
-            Debug.Log("Interactor Interaction Layers: " + interactor.interactionLayers);
+            // Debug.Log("Interactor Interaction Layers: " + interactor.interactionLayers);
         }
         // Set the interaction layers for the interactor
         if (interactor != null)
@@ -33,26 +33,26 @@ public class ObjectSelector : MonoBehaviour
 
     public void TriggerSelection()
     {
-        Debug.Log("TriggerSelection called - Target Object: " + (targetObject != null));
+        // Debug.Log("TriggerSelection called - Target Object: " + (targetObject != null));
         if (targetObject != null)
         {
-            Debug.Log("Starting manual interaction with: " + targetObject.gameObject.name);
+            // Debug.Log("Starting manual interaction with: " + targetObject.gameObject.name);
             // Force the selection
             interactor.StartManualInteraction(targetObject as IXRSelectInteractable);
-            Debug.Log("Started manual interaction");
+            // Debug.Log("Started manual interaction");
         }
         else
         {
-            Debug.LogError("Target Object is null! Please assign it in the Inspector.");
+            // Debug.LogError("Target Object is null! Please assign it in the Inspector.");
         }
     }
 
     public void ReleaseSelection()
     {
-        Debug.Log("ReleaseSelection called");
+        // Debug.Log("ReleaseSelection called");
         // End the forced selection
         interactor.EndManualInteraction();
-        Debug.Log("Ended manual interaction");
+        // Debug.Log("Ended manual interaction");
     }
 
     public void SetScale(float scale)
@@ -60,7 +60,7 @@ public class ObjectSelector : MonoBehaviour
         if (targetObject != null)
         {
             targetObject.transform.localScale = Vector3.one * scale;
-            Debug.Log("Set scale to: " + scale);
+            // Debug.Log("Set scale to: " + scale);
         }
     }
 }

@@ -11,7 +11,7 @@ public class UIController : MonoBehaviour
     
     void Start()
     {
-        Debug.Log("UIController Start - Toggle Button: " + (toggleButton != null) + ", Object Selector: " + (objectSelector != null));
+        // Debug.Log("UIController Start - Toggle Button: " + (toggleButton != null) + ", Object Selector: " + (objectSelector != null));
         
         // Set toggle to start unchecked
         toggleButton.isOn = false;

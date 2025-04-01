@@ -19,39 +19,39 @@ public class FloorController : MonoBehaviour
 
         if (grabInteractable != null)
         {
-            Debug.Log($"XRGrabInteractable assigned for Floor {floorNumber}");
+            // Debug.Log($"XRGrabInteractable assigned for Floor {floorNumber}");
         }
         else
         {
-            Debug.LogError($"Please assign XRGrabInteractable in Inspector for Floor {floorNumber}");
+            // Debug.LogError($"Please assign XRGrabInteractable in Inspector for Floor {floorNumber}");
         }
 
-        Debug.Log($"Floor {floorNumber} initialized");
+        // Debug.Log($"Floor {floorNumber} initialized");
     }
 
     // Handle collision when another object enters this floor's collider
     private void OnTriggerEnter(Collider other)
     {
         // Debug statement to verify trigger detection
-        Debug.Log($"Trigger detected between Floor {floorNumber} and {other.gameObject.name}");
+        // Debug.Log($"Trigger detected between Floor {floorNumber} and {other.gameObject.name}");
         
         // Check if the triggering object is also a floor
         if (other.gameObject.CompareTag("Floor"))
         {   
-            Debug.Log("Triggered!!");
+            // Debug.Log("Triggered!!");
 
             // Destroy both parent Floor objects
-            Destroy(other.gameObject.transform.parent.gameObject);
-            Destroy(transform.parent.gameObject);
+            // Destroy(other.gameObject.transform.parent.gameObject);
+            // Destroy(transform.parent.gameObject);
         }
         else
         {
-            Debug.Log($"Object {other.gameObject.name} was spawned on Floor {floorNumber}!");
+            // Debug.Log($"Object {other.gameObject.name} was spawned on Floor {floorNumber}!");
             
             // Disable Track Scale if we have an XRGrabInteractable
             if (grabInteractable != null)
             {
-                Debug.Log($"Disabling Track Scale on Floor {floorNumber}");
+                // Debug.Log($"Disabling Track Scale on Floor {floorNumber}");
                 grabInteractable.trackScale = false;
             }
         }
