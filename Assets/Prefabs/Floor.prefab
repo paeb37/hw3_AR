@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 2845533620766787396}
   - component: {fileID: 8713970085065102187}
   - component: {fileID: 7129558866960000382}
+  - component: {fileID: 3483179328224650618}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Floor
@@ -409,6 +410,18 @@ MonoBehaviour:
   m_Elasticity: 0.15
   m_EnableElasticBreakLimit: 1
   m_ElasticBreakLimit: 0.5
+--- !u!114 &3483179328224650618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5807615952357107301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21293e0ed6ec4e91ba7eb8500e56360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &122732793755025844
 PrefabInstance:
   m_ObjectHideFlags: 0

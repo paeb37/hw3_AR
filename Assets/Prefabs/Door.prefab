@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1251985532914253226}
   - component: {fileID: 6572045429063218205}
   - component: {fileID: 3578791133158286689}
+  - component: {fileID: 5338121941334759174}
   m_Layer: 0
   m_Name: Door
   m_TagString: Object
@@ -209,6 +210,18 @@ MonoBehaviour:
   m_Elasticity: 0.15
   m_EnableElasticBreakLimit: 1
   m_ElasticBreakLimit: 0.5
+--- !u!114 &5338121941334759174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247516714924216982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21293e0ed6ec4e91ba7eb8500e56360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1671537438540867613
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc8daac19d1c4c8288fd21c59e80c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainTransform: {fileID: 0}
 --- !u!65 &5597694562604512174
 BoxCollider:
   m_ObjectHideFlags: 0

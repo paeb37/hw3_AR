@@ -40,7 +40,8 @@ public class GrabInteractableTracker : MonoBehaviour
     {
         // Only track despawn if this is a real despawn (not from undo/redo)
         // and if the object still exists (not null)
-        if (actionTracker != null && !gameObject.GetComponent<TransformState>() && gameObject != null && isInitialized && !isBeingUndone)
+        // and if we're not just deactivating the object
+        if (actionTracker != null && !gameObject.GetComponent<TransformState>() && gameObject != null && isInitialized && !isBeingUndone && !gameObject.activeInHierarchy)
         {
             // ACTUALLY DESTROYED!!!!
             actionTracker.OnObjectDespawned(gameObject);

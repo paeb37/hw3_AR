@@ -215,22 +215,25 @@ public class ActionTracker : MonoBehaviour
         switch (action.Type)
         {
             case ActionType.Spawn:
-                // If we spawned an object, reverse means destroying it
+                // If we spawned an object, reverse means deactivating it
                 if (action.TargetObject != null)
                 {
                     var tracker = action.TargetObject.GetComponent<GrabInteractableTracker>();
                     if (tracker != null)
                     {
-                        tracker.SetBeingUndone(true); // to make sure it doesn't treat it as a destroy
+                        tracker.SetBeingUndone(true);
                     }
-                    Destroy(action.TargetObject);
+                    action.TargetObject.SetActive(false);
                 }
                 break;
             case ActionType.Despawn:
-                // If we despawned an object, reverse means recreating it
-                if (objectSpawner != null)
+                // If we despawned an object, reverse means reactivating it
+                if (action.TargetObject != null)
                 {
-                    objectSpawner.TrySpawnObject(previousTransform.position, Vector3.up);
+                    action.TargetObject.SetActive(true);
+                    action.TargetObject.transform.position = previousTransform.position;
+                    action.TargetObject.transform.rotation = previousTransform.rotation;
+                    action.TargetObject.transform.localScale = previousTransform.scale;
                 }
                 break;
             case ActionType.Translate:
@@ -267,27 +270,42 @@ public class ActionTracker : MonoBehaviour
         switch (action.Type)
         {
             case ActionType.Spawn:
-                // If we undid a spawn, redo means recreating the object
-                if (objectSpawner != null)
+                // If we undid a spawn, redo means reactivating the object
+                if (action.TargetObject != null)
                 {
-                    objectSpawner.TrySpawnObject(currentTransform.position, Vector3.up);
+                    action.TargetObject.SetActive(true);
+                    action.TargetObject.transform.position = currentTransform.position;
+                    action.TargetObject.transform.rotation = currentTransform.rotation;
+                    action.TargetObject.transform.localScale = currentTransform.scale;
                 }
                 break;
             case ActionType.Despawn:
-                // If we undid a despawn, redo means destroying it again
-                Destroy(action.TargetObject);
+                // If we undid a despawn, redo means deactivating it again
+                if (action.TargetObject != null)
+                {
+                    action.TargetObject.SetActive(false);
+                }
                 break;
             case ActionType.Translate:
                 // Restore the object's position to where it was after the move
-                action.TargetObject.transform.position = currentTransform.position;
+                if (action.TargetObject != null)
+                {
+                    action.TargetObject.transform.position = currentTransform.position;
+                }
                 break;
             case ActionType.Rotate:
                 // Restore the object's rotation to what it was after the rotation
-                action.TargetObject.transform.rotation = currentTransform.rotation;
+                if (action.TargetObject != null)
+                {
+                    action.TargetObject.transform.rotation = currentTransform.rotation;
+                }
                 break;
             case ActionType.Scale:
                 // Restore the object's scale to what it was after the scaling
-                action.TargetObject.transform.localScale = currentTransform.scale;
+                if (action.TargetObject != null)
+                {
+                    action.TargetObject.transform.localScale = currentTransform.scale;
+                }
                 break;
         }
     }
