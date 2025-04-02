@@ -1989,7 +1989,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc8daac19d1c4c8288fd21c59e80c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainTransform: {fileID: 0}
 --- !u!65 &6099970739350050166
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2205,7 +2204,7 @@ GameObject:
   - component: {fileID: 8205126646242674164}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

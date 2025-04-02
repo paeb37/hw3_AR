@@ -4,20 +4,50 @@ using UnityEngine;
 
 public class ObjectController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject mainTransform;
+    // [SerializeField]
+    // private GameObject mainTransform;
+    
+    // [SerializeField]
+    private Validator validator;
+    
+    [SerializeField] private Material redMaterial; // Assign in Inspector
+    private Material originalMaterial;
     
     // Start is called before the first frame update
     void Start()
     {
         // Find MainTransform if not assigned
-        if (mainTransform == null)
+        // if (mainTransform == null)
+        // {
+        //     mainTransform = GameObject.Find("MainTransform");
+        //     if (mainTransform == null)
+        //     {
+        //         // Debug.LogWarning("MainTransform not found in scene. Objects will not be properly grouped.");
+        //     }
+        // }
+
+        // Find the validator on the SceneExporter GameObject
+        GameObject sceneExporter = GameObject.Find("Scene Exporter"); // exact name matters
+        if (sceneExporter != null)
         {
-            mainTransform = GameObject.Find("MainTransform");
-            if (mainTransform == null)
-            {
-                // Debug.LogWarning("MainTransform not found in scene. Objects will not be properly grouped.");
-            }
+            validator = sceneExporter.GetComponent<Validator>();
+        }
+
+        // Store the original material
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            originalMaterial = renderer.material;
+            Debug.Log($"Object {gameObject.name} original material: {originalMaterial.name}");
+        }
+        else
+        {
+            Debug.LogError($"No Renderer found on {gameObject.name}");
+        }
+
+        if (redMaterial == null)
+        {
+            Debug.LogError($"Red material not assigned in inspector for {gameObject.name}");
         }
     }
 
@@ -62,18 +92,50 @@ public class ObjectController : MonoBehaviour
             // objectToParent.transform.rotation = originalRotation;
             
             // Debug.Log($"Parented {objectToParent.name} to {mainFloorObject.name}");
+
+            // Validate after parenting the object
+            if (validator != null)
+            {
+                Debug.Log("Validating after parenting object to floor");
+                validator.ValidateObjects();
+            }
         }
         else // i.e. colliding with another object, NOT the plane
         {   
             if (!other.gameObject.CompareTag("ARPlane"))
             {
-                // Debug.Log($"Object {transform.parent.gameObject.name} collided with {other.gameObject.name} - destroying");
-                Destroy(transform.parent.gameObject);  // Destroy the parent instead of this object
+                // Change the material of both objects to red
+                Renderer thisRenderer = GetComponent<Renderer>();
+                Renderer otherRenderer = other.gameObject.GetComponent<Renderer>();
+                
+                if (thisRenderer != null && redMaterial != null)
+                {
+                    Debug.Log($"Changing {gameObject.name} to red material");
+                    thisRenderer.material = redMaterial;
+                }
+                else
+                {
+                    Debug.LogError($"Cannot change material - Renderer or red material missing on {gameObject.name}");
+                }
+
+                if (otherRenderer != null)
+                {
+                    ObjectController otherObject = other.GetComponent<ObjectController>();
+                    if (otherObject != null && otherObject.redMaterial != null)
+                    {
+                        Debug.Log($"Changing {other.gameObject.name} to red material");
+                        otherRenderer.material = otherObject.redMaterial;
+                    }
+                    else
+                    {
+                        Debug.LogError($"Cannot change material - Renderer or red material missing on {other.gameObject.name}");
+                    }
+                }
             }
         }
     }
 
-    // Add a new method to check when trigger exits
+    // If it leaves floor, get rid of it
     private void OnTriggerExit(Collider other)
     {
         // Only check for floor collisions, ignore everything else
@@ -82,11 +144,20 @@ public class ObjectController : MonoBehaviour
             // Debug.Log($"Object {transform.parent.gameObject.name} left floor - destroying");
             Destroy(transform.parent.gameObject);
         }
+        else // leaves collision with some other object
+        {
+            Debug.Log($"Object {gameObject.name} leaving collision with {other.gameObject.name} - resetting to original material");
+            Renderer thisRenderer = GetComponent<Renderer>();
+            if (thisRenderer != null && originalMaterial != null)
+            {
+                thisRenderer.material = originalMaterial;
+            }
+            else
+            {
+                Debug.LogError($"Cannot reset material - Renderer or original material missing on {gameObject.name}");
+            }
+        }
     }
-
-    
-
-
 
     // Update is called once per frame
     void Update()

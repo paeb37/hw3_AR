@@ -106,24 +106,24 @@ public class ActionTracker : MonoBehaviour
     private void PrintStackContents(string stackName, Stack<Action> stack)
     {
         string timestamp = System.DateTime.Now.ToString("HH:mm:ss.fff");
-        Debug.Log($"[{timestamp}] ===== {stackName} Contents ======");
+        // Debug.Log($"[{timestamp}] ===== {stackName} Contents ======");
         if (stack.Count == 0)
         {
-            Debug.Log($"[{timestamp}] Stack is empty");
-            Debug.Log($"[{timestamp}] ================================");
+            // Debug.Log($"[{timestamp}] Stack is empty");
+            // Debug.Log($"[{timestamp}] ================================");
             return;
         }
 
         // Create a temporary stack to preserve the original
         var tempStack = new Stack<Action>(new Stack<Action>(stack));
-        int index = 0;
+        // int index = 0;
         while (tempStack.Count > 0)
         {
             var action = tempStack.Pop();
             string objectName = action.TargetObject != null ? action.TargetObject.name : "null object";
-            Debug.Log($"[{timestamp}] Stack Entry {index++}: {action.Type} action on {objectName}");
+            // Debug.Log($"[{timestamp}] Stack Entry {index++}: {action.Type} action on {objectName}");
         }
-        Debug.Log($"[{timestamp}] ================================");
+        // Debug.Log($"[{timestamp}] ================================");
     }
 
     /// <summary>
@@ -134,11 +134,11 @@ public class ActionTracker : MonoBehaviour
     {
         string timestamp = System.DateTime.Now.ToString("HH:mm:ss.fff");
         undoStack.Push(action);
-        Debug.Log($"[{timestamp}] Added {action.Type} action. Undo stack size: {undoStack.Count}");
+        // Debug.Log($"[{timestamp}] Added {action.Type} action. Undo stack size: {undoStack.Count}");
         // PrintStackContents("Undo Stack", undoStack);
 
         redoStack.Clear(); // clear redo stack when adding a new action
-        Debug.Log($"[{timestamp}] Cleared redo stack");
+        // Debug.Log($"[{timestamp}] Cleared redo stack");
         // PrintStackContents("Redo Stack", redoStack);
 
         // Maintain maximum undo levels
@@ -154,7 +154,7 @@ public class ActionTracker : MonoBehaviour
             {
                 undoStack.Push(tempStack.Pop());
             }
-            Debug.Log($"[{timestamp}] Trimmed undo stack to {MAX_UNDO_LEVELS} actions");
+            // Debug.Log($"[{timestamp}] Trimmed undo stack to {MAX_UNDO_LEVELS} actions");
             PrintStackContents("Trimmed Undo Stack", undoStack);
         }
     }
@@ -331,6 +331,6 @@ public class ActionTracker : MonoBehaviour
         string timestamp = System.DateTime.Now.ToString("HH:mm:ss.fff");
         undoStack.Clear();
         redoStack.Clear();
-        Debug.Log($"[{timestamp}] Cleared both undo and redo stacks");
+        // Debug.Log($"[{timestamp}] Cleared both undo and redo stacks");
     }
 } 

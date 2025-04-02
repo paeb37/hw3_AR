@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 552957096391358527}
   m_Layer: 0
   m_Name: Turtle
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -868,7 +868,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc8daac19d1c4c8288fd21c59e80c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainTransform: {fileID: 0}
 --- !u!65 &8859312434329063728
 BoxCollider:
   m_ObjectHideFlags: 0

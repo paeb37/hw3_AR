@@ -44,8 +44,8 @@ GameObject:
   - component: {fileID: 6990566754783809020}
   - component: {fileID: 4578293165123888402}
   - component: {fileID: 1561127510567342998}
-  - component: {fileID: 7521148828339638386}
   - component: {fileID: 403094305448445622}
+  - component: {fileID: 7521148828339638386}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Floor
@@ -166,20 +166,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.8377266, y: 0.2524622, z: 4.8377295}
   m_Center: {x: 0, y: 0.12623087, z: -0.00000035762787}
---- !u!114 &7521148828339638386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5020141868631004882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd15b9893dc1f4f50a41caaf87703e33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floorNumber: 0
-  grabInteractable: {fileID: 8713970085065102187}
 --- !u!65 &403094305448445622
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -201,6 +187,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.8377266, y: 0.2524622, z: 4.8377295}
   m_Center: {x: 0, y: 0.12623087, z: -0.00000035762787}
+--- !u!114 &7521148828339638386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5020141868631004882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd15b9893dc1f4f50a41caaf87703e33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorNumber: 0
+  grabInteractable: {fileID: 8713970085065102187}
+  redMaterial: {fileID: 2100000, guid: ea37db6d978a74535956800f442b47e2, type: 2}
 --- !u!1 &5807615952357107301
 GameObject:
   m_ObjectHideFlags: 0
