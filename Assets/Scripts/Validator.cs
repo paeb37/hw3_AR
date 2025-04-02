@@ -58,16 +58,16 @@ public class Validator : MonoBehaviour
                     // Check children of Floor 1
                     foreach (Transform floorChild in child)
                     {
-                        Debug.Log($"Checking child of Floor 1: {floorChild.name} with tag: {floorChild.tag}");
+                        // Debug.Log($"Checking child of Floor 1: {floorChild.name} with tag: {floorChild.tag}");
                         if (floorChild.CompareTag("Door"))
                         {
                             hasDoor = true;
-                            Debug.Log("Found Door in Floor 1!");
+                            // Debug.Log("Found Door in Floor 1!");
                         }
                         else if (floorChild.CompareTag("Monster"))
                         {
                             hasMonster = true;
-                            Debug.Log("Found Monster in Floor 1!");
+                            // Debug.Log("Found Monster in Floor 1!");
                         }
                     }
                     
@@ -75,9 +75,9 @@ public class Validator : MonoBehaviour
                     if (!hasDoor || !hasMonster)
                     {
                         allRequirementsMet = false;
-                        Debug.LogWarning("Floor 1 is missing required objects: " + 
-                            (!hasDoor ? "Door " : "") + 
-                            (!hasMonster ? "Monster" : ""));
+                        // Debug.LogWarning("Floor 1 is missing required objects: " + 
+                        //     (!hasDoor ? "Door " : "") + 
+                        //     (!hasMonster ? "Monster" : ""));
                     }
                 }
                 // check requirements for Floor 2
@@ -94,17 +94,17 @@ public class Validator : MonoBehaviour
                         if (floorChild.CompareTag("Door"))
                         {
                             hasDoor = true;
-                            Debug.Log("Found Door in Floor 2!");
+                            // Debug.Log("Found Door in Floor 2!");
                         }
                         else if (floorChild.CompareTag("Chest"))
                         {
                             chestCount++;
-                            Debug.Log($"Found Chest in Floor 2! Total chests: {chestCount}");
+                            // Debug.Log($"Found Chest in Floor 2! Total chests: {chestCount}");
                         }
                         else if (floorChild.CompareTag("Monster"))
                         {
                             monsterCount++;
-                            Debug.Log($"Found Monster in Floor 2! Total monsters: {monsterCount}");
+                            // Debug.Log($"Found Monster in Floor 2! Total monsters: {monsterCount}");
                         }
                     }
                     
@@ -112,10 +112,48 @@ public class Validator : MonoBehaviour
                     if (!hasDoor || chestCount != 2 || monsterCount < 2)
                     {
                         allRequirementsMet = false;
-                        Debug.LogWarning("Floor 2 is missing required objects: " + 
-                            (!hasDoor ? "Door " : "") + 
-                            (chestCount != 2 ? $"Chests (found {chestCount}, need 2) " : "") + 
-                            (monsterCount < 2 ? $"Monsters (found {monsterCount}, need at least 2)" : ""));
+                        // Debug.LogWarning("Floor 2 is missing required objects: " + 
+                        //     (!hasDoor ? "Door " : "") + 
+                        //     (chestCount != 2 ? $"Chests (found {chestCount}, need 2) " : "") + 
+                        //     (monsterCount < 2 ? $"Monsters (found {monsterCount}, need at least 2)" : ""));
+                    }
+                }
+                // check requirements for Floor 3
+                else if (child.name == "Floor3")
+                {
+                    bool hasBoss = false;
+                    bool hasMonster = false;
+                    bool hasChest = false;
+                    
+                    // Check children of Floor 3
+                    foreach (Transform floorChild in child)
+                    {
+                        // Debug.Log($"Checking child of Floor 3: {floorChild.name} with tag: {floorChild.tag}");
+                        if (floorChild.CompareTag("Boss"))
+                        {
+                            hasBoss = true;
+                            // Debug.Log("Found Boss in Floor 3!");
+                        }
+                        else if (floorChild.CompareTag("Monster"))
+                        {
+                            hasMonster = true;
+                            // Debug.Log("Found Monster in Floor 3!");
+                        }
+                        else if (floorChild.CompareTag("Chest"))
+                        {
+                            hasChest = true;
+                            // Debug.Log("Found Chest in Floor 3!");
+                        }
+                    }
+                    
+                    // If Floor 3 doesn't meet requirements, set allRequirementsMet to false
+                    if (!hasBoss || !hasMonster || !hasChest)
+                    {
+                        allRequirementsMet = false;
+                        // Debug.LogWarning("Floor 3 is missing required objects: " + 
+                        //     (!hasBoss ? "Boss " : "") + 
+                        //     (!hasMonster ? "Monster " : "") + 
+                        //     (!hasChest ? "Chest" : ""));
                     }
                 }
             }

@@ -868,6 +868,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc8daac19d1c4c8288fd21c59e80c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textPrefab: {fileID: 6399127956560961222, guid: 7c64be2e035384a9ab6700cbeac3a7f8,
+    type: 3}
 --- !u!65 &8859312434329063728
 BoxCollider:
   m_ObjectHideFlags: 0

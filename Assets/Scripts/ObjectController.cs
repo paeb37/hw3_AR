@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ObjectController : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class ObjectController : MonoBehaviour
     // [SerializeField]
     private Validator validator;
     
-    [SerializeField] private Material redMaterial; // Assign in Inspector
-    private Material originalMaterial;
+    [SerializeField] private TextMeshProUGUI textPrefab; // Reference to text prefab
+    private TextMeshProUGUI collisionText; // Instance of text for this object
     
     // Start is called before the first frame update
     void Start()
@@ -33,21 +34,24 @@ public class ObjectController : MonoBehaviour
             validator = sceneExporter.GetComponent<Validator>();
         }
 
-        // Store the original material
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
+        if (textPrefab == null)
         {
-            originalMaterial = renderer.material;
-            Debug.Log($"Object {gameObject.name} original material: {originalMaterial.name}");
+            Debug.LogError($"Please assign TextMeshProUGUI prefab in Inspector for {gameObject.name}");
         }
         else
         {
-            Debug.LogError($"No Renderer found on {gameObject.name}");
-        }
-
-        if (redMaterial == null)
-        {
-            Debug.LogError($"Red material not assigned in inspector for {gameObject.name}");
+            // Find the UI Canvas
+            GameObject uiCanvas = GameObject.Find("UI");
+            if (uiCanvas != null)
+            {
+                collisionText = Instantiate(textPrefab, uiCanvas.transform);
+                collisionText.gameObject.SetActive(false);
+                Debug.Log($"Created text instance for object {gameObject.name}");
+            }
+            else
+            {
+                Debug.LogError("Could not find UI Canvas in scene! Make sure it's named 'UI'");
+            }
         }
     }
 
@@ -99,37 +103,23 @@ public class ObjectController : MonoBehaviour
                 Debug.Log("Validating after parenting object to floor");
                 validator.ValidateObjects();
             }
+
+            // Show collision text
+            // if (collisionText != null)
+            // {
+            //     collisionText.gameObject.SetActive(true);
+            //     Debug.Log($"Showing collision text for {gameObject.name}");
+            // }
         }
         else // i.e. colliding with another object, NOT the plane
         {   
             if (!other.gameObject.CompareTag("ARPlane"))
             {
-                // Change the material of both objects to red
-                Renderer thisRenderer = GetComponent<Renderer>();
-                Renderer otherRenderer = other.gameObject.GetComponent<Renderer>();
-                
-                if (thisRenderer != null && redMaterial != null)
+                // Show collision text
+                if (collisionText != null)
                 {
-                    Debug.Log($"Changing {gameObject.name} to red material");
-                    thisRenderer.material = redMaterial;
-                }
-                else
-                {
-                    Debug.LogError($"Cannot change material - Renderer or red material missing on {gameObject.name}");
-                }
-
-                if (otherRenderer != null)
-                {
-                    ObjectController otherObject = other.GetComponent<ObjectController>();
-                    if (otherObject != null && otherObject.redMaterial != null)
-                    {
-                        Debug.Log($"Changing {other.gameObject.name} to red material");
-                        otherRenderer.material = otherObject.redMaterial;
-                    }
-                    else
-                    {
-                        Debug.LogError($"Cannot change material - Renderer or red material missing on {other.gameObject.name}");
-                    }
+                    collisionText.gameObject.SetActive(true);
+                    Debug.Log($"Showing collision text for {gameObject.name}");
                 }
             }
         }
@@ -142,19 +132,19 @@ public class ObjectController : MonoBehaviour
         if (other.gameObject.CompareTag("Floor"))
         {
             // Debug.Log($"Object {transform.parent.gameObject.name} left floor - destroying");
+            if (collisionText != null)
+            {
+                Destroy(collisionText.gameObject);
+            }
             Destroy(transform.parent.gameObject);
         }
         else // leaves collision with some other object
         {
-            Debug.Log($"Object {gameObject.name} leaving collision with {other.gameObject.name} - resetting to original material");
-            Renderer thisRenderer = GetComponent<Renderer>();
-            if (thisRenderer != null && originalMaterial != null)
+            // Hide collision text
+            if (collisionText != null)
             {
-                thisRenderer.material = originalMaterial;
-            }
-            else
-            {
-                Debug.LogError($"Cannot reset material - Renderer or original material missing on {gameObject.name}");
+                collisionText.gameObject.SetActive(false);
+                Debug.Log($"Hiding collision text for {gameObject.name}");
             }
         }
     }

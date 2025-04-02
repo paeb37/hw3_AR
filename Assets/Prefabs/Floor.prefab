@@ -201,7 +201,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 0
   grabInteractable: {fileID: 8713970085065102187}
-  redMaterial: {fileID: 2100000, guid: ea37db6d978a74535956800f442b47e2, type: 2}
+  textPrefab: {fileID: 6399127956560961222, guid: 7c64be2e035384a9ab6700cbeac3a7f8,
+    type: 3}
 --- !u!1 &5807615952357107301
 GameObject:
   m_ObjectHideFlags: 0
