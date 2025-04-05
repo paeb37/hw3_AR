@@ -4,57 +4,70 @@ using System.IO;
 
 public class SceneExporter : MonoBehaviour
 {
-    public string outputFileName = "scene_data.json";
+    public string outputFileName = "";
 
     public void ExportSceneData()
     {
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        // Find the MainTransform GameObject
+        GameObject mainTransform = GameObject.Find("MainTransform");
+        if (mainTransform == null)
+        {
+            Debug.LogError("MainTransform GameObject not found in the scene!");
+            return;
+        }
+
         List<ObjectTransformData> objectList = new List<ObjectTransformData>();
-
-        // First, create a dictionary to map floors to their types
-        Dictionary<GameObject, string> floorTypes = new Dictionary<GameObject, string>();
-        foreach (GameObject obj in allObjects)
+        
+        // Process only the floor children of MainTransform
+        foreach (Transform child in mainTransform.transform)
         {
-            // this is how we detect if it is a floor or not
-            if (obj.name.StartsWith("Floor"))
+            // Check if this child is a floor
+            if (child.name.StartsWith("Floor"))
             {
-                // Extract the floor number from the name (e.g., "Floor1" -> "1")
-                string floorNumber = obj.name.Substring(5);
-                floorTypes[obj] = "Room" + floorNumber;
-            }
-        }
-
-        foreach (GameObject obj in allObjects)
-        {
-            // Skip objects not in the hierarchy or with HideFlags
-            if (!obj.activeInHierarchy || obj.hideFlags != HideFlags.None)
-                continue;
-
-            // Find which floor this object belongs to
-            string exportName = obj.name;
-            Transform parent = obj.transform.parent;
-            while (parent != null)
-            {
-                if (floorTypes.TryGetValue(parent.gameObject, out string roomType))
+                // Skip if not active in hierarchy
+                if (!child.gameObject.activeInHierarchy)
+                    continue;
+                    
+                // Add the floor itself
+                string floorNumber = child.name.Substring(5); // Extract the floor number
+                string roomType = "Room" + floorNumber;
+                
+                ObjectTransformData floorData = new ObjectTransformData
                 {
-                    exportName = $"{obj.name} ({roomType})";
-                    break;
+                    name = $"{child.name} ({roomType})",
+                    position = child.localPosition,
+                    rotation = child.localRotation.eulerAngles,
+                    scale = child.localScale
+                };
+                objectList.Add(floorData);
+                
+                // Add all children of the floor, except for specific objects to ignore
+                foreach (Transform floorChild in child)
+                {
+                    // Skip if not active in hierarchy or has HideFlags
+                    if (!floorChild.gameObject.activeInHierarchy || floorChild.gameObject.hideFlags != HideFlags.None)
+                        continue;
+                        
+                    // Skip specific objects we want to ignore based on name prefixes
+                    if (floorChild.name.StartsWith("Interaction Affordance") || 
+                        floorChild.name.StartsWith("AttachTransform") || 
+                        floorChild.name.StartsWith("Visuals"))
+                        continue;
+                        
+                    ObjectTransformData childData = new ObjectTransformData
+                    {
+                        name = $"{floorChild.name} ({roomType})",
+                        position = floorChild.localPosition,
+                        rotation = floorChild.localRotation.eulerAngles,
+                        scale = floorChild.localScale
+                    };
+                    objectList.Add(childData);
                 }
-                parent = parent.parent;
             }
-
-            ObjectTransformData data = new ObjectTransformData
-            {
-                name = exportName,
-                position = obj.transform.position,
-                rotation = obj.transform.rotation.eulerAngles,
-                scale = obj.transform.localScale
-            };
-            objectList.Add(data);
         }
-             // Convert to JSON
+        
+        // Convert to JSON
         string json = JsonUtility.ToJson(new SceneData { objects = objectList }, true);
-
 
         try
         {

@@ -8619,7 +8619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e74d2d57b9bb4dac80d41ea6e70c0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outputFileName: scene_data.json
+  outputFileName: data1.json
 --- !u!4 &1901415513
 Transform:
   m_ObjectHideFlags: 0

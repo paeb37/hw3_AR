@@ -37,6 +37,17 @@ public class Validator : MonoBehaviour
 
     public void ValidateObjects()
     {
+        // GET RID OF THIS LATER!!!!!
+
+        // Show export button always
+        if (exportButton != null)
+        {
+            exportButton.gameObject.SetActive(true);
+            return;
+        }
+
+        //
+
         if (mainTransform == null) return;
 
         int floorCount = 0;
