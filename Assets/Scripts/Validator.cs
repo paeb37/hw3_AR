@@ -37,15 +37,12 @@ public class Validator : MonoBehaviour
 
     public void ValidateObjects()
     {
-        // GET RID OF THIS LATER!!!!!
-
-        // Show export button always
-        if (exportButton != null)
-        {
-            exportButton.gameObject.SetActive(true);
-            return;
-        }
-
+        // Show export button always - ONLY FOR TESTING
+        // if (exportButton != null)
+        // {
+        //     exportButton.gameObject.SetActive(true);
+        //     return;
+        // }
         //
 
         if (mainTransform == null) return;
@@ -65,6 +62,8 @@ public class Validator : MonoBehaviour
                 {
                     bool hasDoor = false;
                     bool hasMonster = false;
+                    bool hasPlayer = false;
+                    bool hasWall = false;
                     
                     // Check children of Floor 1
                     foreach (Transform floorChild in child)
@@ -80,15 +79,27 @@ public class Validator : MonoBehaviour
                             hasMonster = true;
                             // Debug.Log("Found Monster in Floor 1!");
                         }
+                        else if (floorChild.CompareTag("Player"))
+                        {
+                            hasPlayer = true;
+                            // Debug.Log("Found Player in Floor 1!");
+                        }
+                        else if (floorChild.CompareTag("Wall"))
+                        {
+                            hasWall = true;
+                            // Debug.Log("Found Wall in Floor 1!");
+                        }
                     }
                     
                     // If Floor 1 doesn't meet requirements, set allRequirementsMet to false
-                    if (!hasDoor || !hasMonster)
+                    if (!hasDoor || !hasMonster || !hasPlayer || !hasWall)
                     {
                         allRequirementsMet = false;
-                        // Debug.LogWarning("Floor 1 is missing required objects: " + 
-                        //     (!hasDoor ? "Door " : "") + 
-                        //     (!hasMonster ? "Monster" : ""));
+                        Debug.LogWarning("Floor 1 is missing required objects: " + 
+                            (!hasDoor ? "Door " : "") + 
+                            (!hasMonster ? "Monster " : "") +
+                            (!hasPlayer ? "Player " : "") +
+                            (!hasWall ? "Wall" : ""));
                     }
                 }
                 // check requirements for Floor 2
@@ -97,6 +108,8 @@ public class Validator : MonoBehaviour
                     bool hasDoor = false;
                     int chestCount = 0;
                     int monsterCount = 0;
+                    bool hasPlayer = false;
+                    bool hasWall = false;
                     
                     // Check children of Floor 2
                     foreach (Transform floorChild in child)
@@ -117,16 +130,28 @@ public class Validator : MonoBehaviour
                             monsterCount++;
                             // Debug.Log($"Found Monster in Floor 2! Total monsters: {monsterCount}");
                         }
+                        else if (floorChild.CompareTag("Player"))
+                        {
+                            hasPlayer = true;
+                            // Debug.Log("Found Player in Floor 2!");
+                        }
+                        else if (floorChild.CompareTag("Wall"))
+                        {
+                            hasWall = true;
+                            // Debug.Log("Found Wall in Floor 2!");
+                        }
                     }
                     
                     // If Floor 2 doesn't meet requirements, set allRequirementsMet to false
-                    if (!hasDoor || chestCount != 2 || monsterCount < 2)
+                    if (!hasDoor || chestCount != 2 || monsterCount < 2 || !hasPlayer || !hasWall)
                     {
                         allRequirementsMet = false;
-                        // Debug.LogWarning("Floor 2 is missing required objects: " + 
-                        //     (!hasDoor ? "Door " : "") + 
-                        //     (chestCount != 2 ? $"Chests (found {chestCount}, need 2) " : "") + 
-                        //     (monsterCount < 2 ? $"Monsters (found {monsterCount}, need at least 2)" : ""));
+                        Debug.LogWarning("Floor 2 is missing required objects: " + 
+                            (!hasDoor ? "Door " : "") + 
+                            (chestCount != 2 ? $"Chests (found {chestCount}, need 2) " : "") + 
+                            (monsterCount < 2 ? $"Monsters (found {monsterCount}, need at least 2) " : "") +
+                            (!hasPlayer ? "Player " : "") +
+                            (!hasWall ? "Wall" : ""));
                     }
                 }
                 // check requirements for Floor 3
@@ -135,6 +160,8 @@ public class Validator : MonoBehaviour
                     bool hasBoss = false;
                     bool hasMonster = false;
                     bool hasChest = false;
+                    bool hasPlayer = false;
+                    bool hasWall = false;
                     
                     // Check children of Floor 3
                     foreach (Transform floorChild in child)
@@ -155,16 +182,28 @@ public class Validator : MonoBehaviour
                             hasChest = true;
                             // Debug.Log("Found Chest in Floor 3!");
                         }
+                        else if (floorChild.CompareTag("Player"))
+                        {
+                            hasPlayer = true;
+                            // Debug.Log("Found Player in Floor 3!");
+                        }
+                        else if (floorChild.CompareTag("Wall"))
+                        {
+                            hasWall = true;
+                            // Debug.Log("Found Wall in Floor 3!");
+                        }
                     }
                     
                     // If Floor 3 doesn't meet requirements, set allRequirementsMet to false
-                    if (!hasBoss || !hasMonster || !hasChest)
+                    if (!hasBoss || !hasMonster || !hasChest || !hasPlayer || !hasWall)
                     {
                         allRequirementsMet = false;
-                        // Debug.LogWarning("Floor 3 is missing required objects: " + 
-                        //     (!hasBoss ? "Boss " : "") + 
-                        //     (!hasMonster ? "Monster " : "") + 
-                        //     (!hasChest ? "Chest" : ""));
+                        Debug.LogWarning("Floor 3 is missing required objects: " + 
+                            (!hasBoss ? "Boss " : "") + 
+                            (!hasMonster ? "Monster " : "") + 
+                            (!hasChest ? "Chest " : "") +
+                            (!hasPlayer ? "Player " : "") +
+                            (!hasWall ? "Wall" : ""));
                     }
                 }
             }
@@ -173,7 +212,13 @@ public class Validator : MonoBehaviour
         // Show export button if we have exactly 3 floor objects and all requirements are met
         if (exportButton != null)
         {
+            Debug.Log($"Validation complete. Floor count: {floorCount}, All requirements met: {allRequirementsMet}");
+            Debug.Log($"Export button will be set to: {floorCount == REQUIRED_FLOOR_COUNT && allRequirementsMet}");
             exportButton.gameObject.SetActive(floorCount == REQUIRED_FLOOR_COUNT && allRequirementsMet);
+        }
+        else
+        {
+            Debug.LogError("Export button is null! Please assign it in the Inspector.");
         }
     }
 }
