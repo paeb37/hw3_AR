@@ -33,10 +33,7 @@ public class Validator : MonoBehaviour
         {
             exportButton.gameObject.SetActive(false);
         }
-    }
 
-    public void ValidateObjects()
-    {
         // Show export button always - ONLY FOR TESTING
         // if (exportButton != null)
         // {
@@ -44,7 +41,10 @@ public class Validator : MonoBehaviour
         //     return;
         // }
         //
+    }
 
+    public void ValidateObjects()
+    {
         if (mainTransform == null) return;
 
         int floorCount = 0;

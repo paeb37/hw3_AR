@@ -40,9 +40,12 @@ I implemented everything in the instructions - but there were two features with 
 Assets:
 - https://assetstore.unity.com/packages/3d/characters/creatures/dragon-for-boss-monster-pbr-78923?srsltid=AfmBOoozqV4XF3hhFVKJU3mVrIxxRIaBfDWNUDU4CKRNJhw3bjdzcRpH
 - https://assetstore.unity.com/packages/3d/characters/creatures/rpg-monster-duo-pbr-polyart-157762
-- 
+- https://assetstore.unity.com/packages/3d/props/weapons/free-rpg-weapons-199738
+- https://assetstore.unity.com/packages/3d/characters/hypercasual-simple-female-male-characters-209163
+- https://assetstore.unity.com/packages/3d/props/rust-key-167590
 
 Sounds:
 https://freesound.org/people/LilMati/sounds/495541/
 https://freesound.org/people/nicktermer/sounds/320247/
 https://freesound.org/people/EVRetro/sounds/495005/
+https://freesound.org/people/DracoN12/sounds/501846/
