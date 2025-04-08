@@ -1,21 +1,14 @@
 using UnityEngine;
 
-/// <summary>
-/// Temporary component that stores the initial transform state of an object being grabbed.
-/// This component is added when grabbing starts and removed when grabbing ends.
-/// </summary>
+// stores initial transform state when grabbing starts, removed when grabbing ends
 public class TransformState : MonoBehaviour
 {   
-    // have to store the values, not the transform itself
-    // because that's attached to gameobject which could be destroyed temporarily
-    
+    // gotta store values not transform itself cuz gameobject might get destroyed
     private Vector3 initialPosition;
     private Quaternion initialRotation;
     private Vector3 initialScale;
 
-    /// <summary>
-    /// Stores the initial transform state of the object
-    /// </summary>
+    // saves initial transform state
     public void StoreInitialState(Transform transform)
     {
         initialPosition = transform.position;
@@ -23,33 +16,25 @@ public class TransformState : MonoBehaviour
         initialScale = transform.localScale;
     }
 
-    /// <summary>
-    /// Gets the stored initial transform values
-    /// </summary>
+    // gets the saved transform values
     public (Vector3 position, Quaternion rotation, Vector3 scale) GetInitialTransform()
     {
         return (initialPosition, initialRotation, initialScale);
     }
 
-    /// <summary>
-    /// Checks if the position has changed from the initial state
-    /// </summary>
+    // checks if position changed
     public bool HasPositionChanged()
     {
         return transform.position != initialPosition;
     }
 
-    /// <summary>
-    /// Checks if the rotation has changed from the initial state
-    /// </summary>
+    // checks if rotation changed
     public bool HasRotationChanged()
     {
         return Quaternion.Angle(transform.rotation, initialRotation) > 0.01f;
     }
 
-    /// <summary>
-    /// Checks if the scale has changed from the initial state
-    /// </summary>
+    // checks if scale changed
     public bool HasScaleChanged()
     {
         return transform.localScale != initialScale;

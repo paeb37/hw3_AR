@@ -1,60 +1,39 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
-/// <summary>
-/// Defines the different types of actions that can be performed on objects in the scene.
-/// Each type corresponds to a specific transformation or state change.
-/// </summary>
+// different ways to mess with objects in the scene
 public enum ActionType
 {
-    Spawn,      // Creating a new object
-    Despawn,    // Removing an existing object
-    Translate,  // Moving an object
-    Scale,      // Resizing an object
-    Rotate      // Rotating an object
+    Spawn,      // make new object
+    Despawn,    // delete object
+    Translate,  // move object
+    Scale,      // resize object
+    Rotate      // spin object
 }
 
-/// <summary>
-/// Represents a single action that can be undone or redone.
-/// Stores the type of action, the target object, and the previous state of the object.
-/// </summary>
+// one action that can be undone/redone
 public class Action
 {
-    /// <summary>
-    /// The type of action performed (spawn, despawn, translate, scale, or rotate)
-    /// </summary>
+    // what kind of action it is
     public ActionType Type { get; private set; }
 
-    /// <summary>
-    /// The GameObject that was affected by this action
-    /// </summary>
+    // the object that got changed
     public GameObject TargetObject { get; private set; }
 
-    /// <summary>
-    /// Stores the complete Transform state of the object before the action was performed.
-    /// This includes position, rotation, and scale values.
-    /// </summary>
+    // where the object was before
     private (Vector3 position, Quaternion rotation, Vector3 scale) previousTransform;
 
-    /// <summary>
-    /// Stores the complete Transform state of the object after the action was performed.
-    /// This includes position, rotation, and scale values.
-    /// </summary>
+    // where the object is now
     private (Vector3 position, Quaternion rotation, Vector3 scale) currentTransform;
 
-    /// <summary>
-    /// Creates a new Action with the specified type and target object.
-    /// </summary>
-    /// <param name="type">The type of action being performed</param>
-    /// <param name="targetObject">The GameObject being affected</param>
-    /// <param name="previousTransform">Transform values before the action</param>
+    // create a new action
     public Action(ActionType type, GameObject targetObject, (Vector3 position, Quaternion rotation, Vector3 scale) previousTransform)
     {
         Type = type;
         TargetObject = targetObject;
         this.previousTransform = previousTransform;
         
-        // Store the current state after the action
+        // save where it is now
         this.currentTransform = (
             targetObject.transform.position,
             targetObject.transform.rotation,
@@ -62,17 +41,13 @@ public class Action
         );
     }
 
-    /// <summary>
-    /// Gets the previous transform state of the object
-    /// </summary>
+    // get where it was before
     public (Vector3 position, Quaternion rotation, Vector3 scale) GetPreviousTransform()
     {
         return previousTransform;
     }
 
-    /// <summary>
-    /// Gets the current transform state of the object
-    /// </summary>
+    // get where it is now
     public (Vector3 position, Quaternion rotation, Vector3 scale) GetCurrentTransform()
     {
         return currentTransform;
