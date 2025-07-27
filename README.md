@@ -1,10 +1,4 @@
-# a. Your name and UNI.
-
-Brandon Pae, btp2109
-
-# b. Date of submission.
-
-April 9, 2025
+# HW_3 (Part 1): Phone AR dungeon builder
 
 # c. Computer and OS version.
 
